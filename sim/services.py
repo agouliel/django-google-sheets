@@ -36,7 +36,7 @@ def get_all_rows(doc_name: str, sheet_name: str = None) -> List[dict]:
   worksheet = sh.worksheet[sheet_name] if sheet_name else sh.get_worksheet(0)
   return worksheet.get_all_records()
 
-def insert_row(doc_name, val):
+def insert_row(doc_name, name, descr, url):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
   # get current max row
   worksheet1 = sh.get_worksheet(1)
@@ -44,6 +44,9 @@ def insert_row(doc_name, val):
   counter = int(counter_str)
   # insert value
   worksheet = sh.get_worksheet(0)
-  worksheet.update(f'A{counter+1}', val)
+  worksheet.update(f'A{counter+1}', name)
+  worksheet.update(f'B{counter+1}', descr)
+  worksheet.update(f'C{counter+1}', url)
+  worksheet.update(f'D{counter+1}', f'{counter+1}') # id
   # update max row
   worksheet1.update('A1', f'{counter+1}')

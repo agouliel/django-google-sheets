@@ -11,10 +11,10 @@ def get_name(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            insert_row('db', form.cleaned_data['your_name'])
+            insert_row('db', form.cleaned_data['your_name'], form.cleaned_data['descr'], form.cleaned_data['pic_url'])
             # redirect to a new URL:
             #return HttpResponseRedirect("/thanks/")
-            return redirect('get_name_url')
+            return redirect('photo-wall')
 
     # if a GET (or any other method) we'll create a blank form
     else:
