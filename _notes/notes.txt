@@ -1,0 +1,2 @@
+https://www.photondesigner.com/articles/django-with-google-sheets-database
+specify correct filename in the code
