@@ -34,7 +34,7 @@ def get_all_rows(doc_name: str, sheet_name: str = None) -> List[dict]:
   """
   sh = settings.GSPREAD_CLIENT.open(doc_name)
   worksheet = sh.worksheet[sheet_name] if sheet_name else sh.get_worksheet(0)
-  return worksheet.get_all_records()
+  return worksheet.get_all_records() # Returns a list of dictionaries
 
 def insert_row(doc_name, name, descr, url):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
