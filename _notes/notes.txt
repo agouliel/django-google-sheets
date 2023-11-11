@@ -1,2 +1,6 @@
 https://www.photondesigner.com/articles/django-with-google-sheets-database
 specify correct filename in the code
+
+HTMX form was taken from here:
+https://www.photondesigner.com/articles/submit-async-django-form-with-htmx
+(but it's not working)

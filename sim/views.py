@@ -14,6 +14,8 @@ def get_name(request):
         # 'descr': ['The great'],
         # 'pic_url': ['https://upload.wikimedia.org/wikipedia/commons/8/84/Alexander_the_Great_mosaic_%28cropped%29.jpg']
         # }>
+        # instead of the form, we could use:
+        # name = request.POST.get('your_name', '')
 
         # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
@@ -29,7 +31,7 @@ def get_name(request):
     else:
         form = NameForm()
 
-    return render(request, "name.html", {"form": form})
+    return render(request, 'name.html', {'form': form})
 
 def photo_wall(request):
   photos = get_all_rows('db') # use the correct filename here
