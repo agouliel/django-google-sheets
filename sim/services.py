@@ -33,20 +33,20 @@ def get_all_rows(doc_name: str, sheet_name: str = None) -> List[dict]:
   Fetches all rows from a given Google Sheet worksheet.
   """
   sh = settings.GSPREAD_CLIENT.open(doc_name)
-  worksheet = sh.worksheet[sheet_name] if sheet_name else sh.get_worksheet(0)
+  worksheet = sh.worksheet(sheet_name) if sheet_name else sh.get_worksheet(0)
   return worksheet.get_all_records() # Returns a list of dictionaries
 
-def insert_row(doc_name, name, descr, url):
+def insert_row(doc_name, sheet, data):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
   # get current max row
-  worksheet1 = sh.get_worksheet(1)
+  worksheet1 = sh.worksheet(sheet+'_max')
   counter_str = worksheet1.acell('A1').value
   counter = int(counter_str)
   # insert value
-  worksheet = sh.get_worksheet(0)
-  worksheet.update(f'A{counter+1}', name)
-  worksheet.update(f'B{counter+1}', descr)
-  worksheet.update(f'C{counter+1}', url)
+  worksheet = sh.worksheet(sheet)
+  worksheet.update(f'A{counter+1}', data['your_name'])
+  worksheet.update(f'B{counter+1}', data['descr'])
+  worksheet.update(f'C{counter+1}', data['pic_url'])
   worksheet.update(f'D{counter+1}', f'{counter+1}') # id
   # update max row
   worksheet1.update('A1', f'{counter+1}')

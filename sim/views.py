@@ -22,7 +22,10 @@ def get_name(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            insert_row('db', form.cleaned_data['your_name'], form.cleaned_data['descr'], form.cleaned_data['pic_url'])
+            if str(request.user) != 'AnonymousUser':
+              insert_row('db', str(request.user), form.cleaned_data)
+            else:
+              insert_row('db', 'alex', form.cleaned_data)
             # redirect to a new URL:
             #return HttpResponseRedirect("/thanks/")
             return redirect('photo-wall')
@@ -34,7 +37,10 @@ def get_name(request):
     return render(request, 'name.html', {'form': form})
 
 def photo_wall(request):
-  photos = get_all_rows('db') # use the correct filename here
+  if str(request.user) != 'AnonymousUser':
+    photos = get_all_rows('db', str(request.user))
+  else:
+    photos = get_all_rows('db', 'alex') # use the correct filename here
   # https://stackoverflow.com/questions/72899/how-to-sort-a-list-of-dictionaries-by-a-value-of-the-dictionary-in-python
   reversedlist = sorted(photos, key=lambda d: d['id'], reverse=True)
   return render(request, 'photo_wall.html', {'photos': reversedlist})
