@@ -5,7 +5,7 @@ from .forms import NameForm
 
 def get_name(request):
     # if this is a POST request we need to process the form data
-    if request.method == "POST":
+    if request.method == 'POST':
         
         # request.POST:
         # <QueryDict: {
@@ -24,8 +24,6 @@ def get_name(request):
             # process the data in form.cleaned_data as required
             if str(request.user) != 'AnonymousUser':
               insert_row('db', str(request.user), form.cleaned_data)
-            else:
-              insert_row('db', 'alex', form.cleaned_data)
             # redirect to a new URL:
             #return HttpResponseRedirect("/thanks/")
             return redirect('photo-wall')

@@ -39,14 +39,30 @@ def get_all_rows(doc_name: str, sheet_name: str = None) -> List[dict]:
 def insert_row(doc_name, sheet, data):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
   # get current max row
+  # we could use append_row instead
   worksheet1 = sh.worksheet(sheet+'_max')
   counter_str = worksheet1.acell('A1').value
   counter = int(counter_str)
   # insert value
   worksheet = sh.worksheet(sheet)
+  worksheet.add_rows(1)
   worksheet.update(f'A{counter+1}', data['your_name'])
   worksheet.update(f'B{counter+1}', data['descr'])
   worksheet.update(f'C{counter+1}', data['pic_url'])
   worksheet.update(f'D{counter+1}', f'{counter+1}') # id
   # update max row
   worksheet1.update('A1', f'{counter+1}')
+
+def create_worksheets(doc_name, user_name):
+  sh = settings.GSPREAD_CLIENT.open(doc_name)
+  worksheet = sh.add_worksheet(title=user_name, rows=2, cols=4)
+  worksheet.update('A1', 'title')
+  worksheet.update('B1', 'description')
+  worksheet.update('C1', 'url')
+  worksheet.update('D1', 'id')
+  worksheet.update('A2', 'Welcome')
+  worksheet.update('B2', 'Welcome')
+  worksheet.update('C2', 'https://static.vecteezy.com/system/resources/thumbnails/011/976/274/small/stick-figures-welcome-free-vector.jpg')
+  worksheet.update('D2', '2')
+  worksheet = sh.add_worksheet(title=user_name+'_max', rows=1, cols=1)
+  worksheet.update('A1', '2')
