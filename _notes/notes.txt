@@ -4,3 +4,5 @@ specify correct filename in the code
 HTMX form was taken from here:
 https://www.photondesigner.com/articles/submit-async-django-form-with-htmx
 (but it's not working)
+
+https://stackoverflow.com/questions/63513339/how-do-i-get-html-text-align-center-and-right-on-the-same-line-without-using-fl

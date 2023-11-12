@@ -40,7 +40,7 @@ def photo_wall(request):
   if str(request.user) != 'AnonymousUser':
     photos = get_all_rows('db', str(request.user))
   else:
-    photos = get_all_rows('db', 'alex') # use the correct filename here
+    photos = get_all_rows('db', 'welcome') # use the correct filename here
   # https://stackoverflow.com/questions/72899/how-to-sort-a-list-of-dictionaries-by-a-value-of-the-dictionary-in-python
   reversedlist = sorted(photos, key=lambda d: d['id'], reverse=True)
   return render(request, 'photo_wall.html', {'photos': reversedlist})
