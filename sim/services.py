@@ -55,14 +55,17 @@ def insert_row(doc_name, sheet, data):
 
 def create_worksheets(doc_name, user_name):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
-  worksheet = sh.add_worksheet(title=user_name, rows=2, cols=4)
-  worksheet.update('A1', 'title')
-  worksheet.update('B1', 'description')
-  worksheet.update('C1', 'url')
-  worksheet.update('D1', 'id')
-  worksheet.update('A2', 'Welcome')
-  worksheet.update('B2', 'Welcome')
-  worksheet.update('C2', 'https://static.vecteezy.com/system/resources/thumbnails/011/976/274/small/stick-figures-welcome-free-vector.jpg')
-  worksheet.update('D2', '2')
-  worksheet = sh.add_worksheet(title=user_name+'_max', rows=1, cols=1)
-  worksheet.update('A1', '2')
+  try:
+    worksheet = sh.worksheet(user_name)
+  except: # worksheets don't exist
+    worksheet = sh.add_worksheet(title=user_name, rows=2, cols=4)
+    worksheet.update('A1', 'title')
+    worksheet.update('B1', 'description')
+    worksheet.update('C1', 'url')
+    worksheet.update('D1', 'id')
+    worksheet.update('A2', 'Welcome')
+    worksheet.update('B2', 'Welcome')
+    worksheet.update('C2', 'https://static.vecteezy.com/system/resources/thumbnails/011/976/274/small/stick-figures-welcome-free-vector.jpg')
+    worksheet.update('D2', '2')
+    worksheet = sh.add_worksheet(title=user_name+'_max', rows=1, cols=1)
+    worksheet.update('A1', '2')

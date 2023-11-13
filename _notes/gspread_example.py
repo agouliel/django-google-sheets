@@ -1,6 +1,6 @@
 import gspread
 
-gc = gspread.service_account(filename='genuine-haiku-403407-71cf52b79e57.json')
+gc = gspread.service_account(filename='_notes/genuine-haiku-403407-71cf52b79e57.json')
 sh = gc.open('db')
 worksheet = sh.get_worksheet(0)
 worksheet.update('A11', 'Bingo!')
