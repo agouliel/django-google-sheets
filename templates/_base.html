@@ -1,13 +1,53 @@
+{% load bootstrap5 %}
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>{% block title %}Alexgram{% endblock title %}</title>
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block head %}
+{% endblock head %}
 </head>
 <body>
-    <div class="container">
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+
+        <a class="navbar-brand" href="{% url 'photo-wall' %}">Home</a>
+    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span></button>
+    
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'get_name_url' %}">Add</a>
+            </li>
+            {% endif %}
+          </ul>
+    
+          <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'photo-wall' %}">Hello, {{ user }}.</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log in</a></li>
+            {% endif %}
+          </ul>
+        </div>
+    
+      </nav>
+
     {% block content %}
     {% endblock content %}
-    </div>
 </body>
 </html>
