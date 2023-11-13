@@ -46,12 +46,12 @@ def insert_row(doc_name, sheet, data):
   # insert value
   worksheet = sh.worksheet(sheet)
   worksheet.add_rows(1)
-  worksheet.update(f'A{counter+1}', data['your_name'])
-  worksheet.update(f'B{counter+1}', data['descr'])
-  worksheet.update(f'C{counter+1}', data['pic_url'])
-  worksheet.update(f'D{counter+1}', f'{counter+1}') # id
+  worksheet.update(range_name=f'A{counter+1}', values=[[data['your_name']]])
+  worksheet.update(range_name=f'B{counter+1}', values=[[data['descr']]])
+  worksheet.update(range_name=f'C{counter+1}', values=[[data['pic_url']]])
+  worksheet.update(range_name=f'D{counter+1}', values=[[counter+1]]) # id
   # update max row
-  worksheet1.update('A1', f'{counter+1}')
+  worksheet1.update(range_name='A1', values=[[counter+1]])
 
 def create_worksheets(doc_name, user_name):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
@@ -59,18 +59,37 @@ def create_worksheets(doc_name, user_name):
     worksheet = sh.worksheet(user_name)
   except: # worksheets don't exist
     worksheet = sh.add_worksheet(title=user_name, rows=2, cols=4)
-    worksheet.update('A1', 'title')
-    worksheet.update('B1', 'description')
-    worksheet.update('C1', 'url')
-    worksheet.update('D1', 'id')
-    worksheet.update('A2', 'Welcome')
-    worksheet.update('B2', 'Welcome')
-    worksheet.update('C2', 'https://static.vecteezy.com/system/resources/thumbnails/011/976/274/small/stick-figures-welcome-free-vector.jpg')
-    worksheet.update('D2', '2')
+    worksheet.update(range_name='A1', values=[['title']])
+    worksheet.update(range_name='B1', values=[['description']])
+    worksheet.update(range_name='C1', values=[['url']])
+    worksheet.update(range_name='D1', values=[['id']])
+    worksheet.update(range_name='A2', values=[['Welcome']])
+    worksheet.update(range_name='B2', values=[['Welcome']])
+    worksheet.update(range_name='C2', values=[['https://static.vecteezy.com/system/resources/thumbnails/011/976/274/small/stick-figures-welcome-free-vector.jpg']])
+    worksheet.update(range_name='D2', values=[[2]])
     worksheet = sh.add_worksheet(title=user_name+'_max', rows=1, cols=1)
-    worksheet.update('A1', '2')
+    worksheet.update(range_name='A1', values=[[2]])
 
 def get_one_row(doc_name, user_name, photo_id):
   sh = settings.GSPREAD_CLIENT.open(doc_name)
   worksheet = sh.worksheet(user_name)
   return worksheet.row_values(int(photo_id)) # Returns a list
+
+def delete_row(doc_name, user_name, photo_id):
+  sh = settings.GSPREAD_CLIENT.open(doc_name)
+  # get current max row
+  worksheet1 = sh.worksheet(user_name+'_max')
+  counter_str = worksheet1.acell('A1').value
+  max_id = int(counter_str)
+
+  worksheet = sh.worksheet(user_name)
+
+  # update all next rows first
+  for i in range(photo_id+1, max_id+1):
+    worksheet.update(range_name=f'D{i}', values=[[i-1]])
+  
+  # delete row
+  worksheet.delete_rows(photo_id)
+  
+  # update max row
+  worksheet1.update(range_name='A1', values=[[max_id-1]])

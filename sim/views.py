@@ -48,5 +48,14 @@ def photo_view(request, photo_id):
     photo = get_one_row('db', str(request.user), int(photo_id))
   else:
     photo = get_one_row('db', 'welcome', 2)
-  photo_dict = {'title': photo[0], 'description': photo[1], 'url': photo[2]}
+  photo_dict = {'title': photo[0], 'description': photo[1], 'url': photo[2], 'id': photo[3]}
   return render(request, 'photo.html', {'photo': photo_dict})
+
+def delete_view(request, photo_id):
+    context = {}
+ 
+    if request.method =='POST':
+        delete_row('db', str(request.user), int(photo_id))
+        return redirect('photo-wall')
+ 
+    return render(request, 'delete.html', context)
