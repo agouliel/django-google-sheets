@@ -8,3 +8,5 @@ urlpatterns = [
     path('', include('sim.urls')),
     path('', include('pages.urls')),
 ]
+
+urlpatterns = [path('alexgram/', include(urlpatterns))]
