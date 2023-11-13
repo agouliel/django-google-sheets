@@ -69,3 +69,8 @@ def create_worksheets(doc_name, user_name):
     worksheet.update('D2', '2')
     worksheet = sh.add_worksheet(title=user_name+'_max', rows=1, cols=1)
     worksheet.update('A1', '2')
+
+def get_one_row(doc_name, user_name, photo_id):
+  sh = settings.GSPREAD_CLIENT.open(doc_name)
+  worksheet = sh.worksheet(user_name)
+  return worksheet.row_values(int(photo_id)) # Returns a list

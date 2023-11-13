@@ -42,3 +42,11 @@ def photo_wall(request):
   # https://stackoverflow.com/questions/72899/how-to-sort-a-list-of-dictionaries-by-a-value-of-the-dictionary-in-python
   reversedlist = sorted(photos, key=lambda d: d['id'], reverse=True)
   return render(request, 'photo_wall.html', {'photos': reversedlist})
+
+def photo_view(request, photo_id):
+  if str(request.user) != 'AnonymousUser':
+    photo = get_one_row('db', str(request.user), int(photo_id))
+  else:
+    photo = get_one_row('db', 'welcome', 2)
+  photo_dict = {'title': photo[0], 'description': photo[1], 'url': photo[2]}
+  return render(request, 'photo.html', {'photo': photo_dict})
