@@ -131,7 +131,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GSPREAD_CLIENT = initialize_gspread()  # Starting the gspread client when our server starts speeds things up; it avoids re-authenticating on each request
+GSPREAD_CLIENT = None #initialize_gspread()  # Starting the gspread client when our server starts speeds things up; it avoids re-authenticating on each request
 
 LOGIN_REDIRECT_URL = 'photo-wall'
 LOGOUT_REDIRECT_URL = 'photo-wall'
+
+TIME_ZONE = 'Europe/Athens'
+USE_TZ = True

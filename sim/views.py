@@ -6,6 +6,7 @@ import uuid
 from .models import *
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView
+from django.utils import timezone
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -77,12 +78,15 @@ def new_post_view(request):
       new_post = form.save(commit=False)
       new_post.user = request.user
       new_post.id = uuid.uuid4()
+      # https://docs.djangoproject.com/en/dev/topics/i18n/timezones/
+      # Django stores datetime information in UTC in the database
+      new_post.post_date = timezone.now()
       new_post.save()
       return redirect('home_db_url')
   return render(request, 'add_db.html', {'form': form})
 
 def photo_wall_db_view(request):
-   photos = Photos.objects.filter(user=request.user)
+   photos = Photos.objects.filter(user=request.user).order_by('-post_date')
    return render(request, 'photo_wall_db.html', {'photos': photos})
 
 def post_db_view(request, post_id):
