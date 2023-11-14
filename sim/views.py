@@ -7,6 +7,7 @@ from .models import *
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -86,8 +87,13 @@ def new_post_view(request):
   return render(request, 'add_db.html', {'form': form})
 
 def photo_wall_db_view(request):
-   photos = Photos.objects.filter(user=request.user).order_by('-post_date')
-   return render(request, 'photo_wall_db.html', {'photos': photos})
+  if str(request.user) != 'AnonymousUser':
+    photos = Photos.objects.filter(user=request.user).order_by('-post_date')
+  else:
+    User = get_user_model()
+    welcome_user = User.objects.get(username='welcome')
+    photos = Photos.objects.filter(user=welcome_user)
+  return render(request, 'photo_wall_db.html', {'photos': photos})
 
 def post_db_view(request, post_id):
    post = Photos.objects.filter(pk=post_id)
