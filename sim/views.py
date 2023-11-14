@@ -96,8 +96,8 @@ def photo_wall_db_view(request):
   return render(request, 'photo_wall_db.html', {'photos': photos})
 
 def post_db_view(request, post_id):
-   post = Photos.objects.filter(pk=post_id)
-   return render(request, 'photo_db.html', {'photos': post})
+   post = Photos.objects.get(pk=post_id)
+   return render(request, 'photo_db.html', {'photo': post})
 
 class DeletePostView(DeleteView):
     template_name = 'delete.html'
