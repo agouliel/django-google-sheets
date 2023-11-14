@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
 
-        <a class="navbar-brand" href="{% url 'photo-wall' %}">Home</a>
+        <a class="navbar-brand" href="{% url 'home_db_url' %}">Home</a>
     
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarCollapse">
@@ -23,7 +23,7 @@
           <ul class="navbar-nav me-auto">
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'get_name_url' %}">Add</a>
+              <a class="nav-link" href="{% url 'add_db_url' %}">Add</a>
             </li>
             {% endif %}
           </ul>
@@ -31,7 +31,7 @@
           <ul class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'photo-wall' %}">Hello, {{ user }}.</a>
+                <a class="nav-link" href="{% url 'home_db_url' %}">Hello, {{ user }}.</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Log out</a>

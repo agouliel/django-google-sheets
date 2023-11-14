@@ -3,6 +3,9 @@ from .services import *
 #from django.http import HttpResponseRedirect
 from .forms import *
 import uuid
+from .models import *
+from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -61,6 +64,10 @@ def delete_view(request, photo_id):
  
     return render(request, 'delete.html', context)
 
+####################################################################
+################### USING THE DATABASE #############################
+####################################################################
+
 def new_post_view(request):
   if request.method != 'POST':
     form = PostForm()
@@ -71,4 +78,18 @@ def new_post_view(request):
       new_post.user = request.user
       new_post.id = uuid.uuid4()
       new_post.save()
-  return render(request, 'add.html', {'form': form})
+      return redirect('home_db_url')
+  return render(request, 'add_db.html', {'form': form})
+
+def photo_wall_db_view(request):
+   photos = Photos.objects.filter(user=request.user)
+   return render(request, 'photo_wall_db.html', {'photos': photos})
+
+def post_db_view(request, post_id):
+   post = Photos.objects.filter(pk=post_id)
+   return render(request, 'photo_db.html', {'photos': post})
+
+class DeletePostView(DeleteView):
+    template_name = 'delete.html'
+    model = Photos
+    success_url = reverse_lazy('home_db_url')
