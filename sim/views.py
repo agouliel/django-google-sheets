@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .services import *
 #from django.http import HttpResponseRedirect
-from .forms import NameForm
+from .forms import *
+import uuid
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -54,8 +55,20 @@ def photo_view(request, photo_id):
 def delete_view(request, photo_id):
     context = {}
  
-    if request.method =='POST':
+    if request.method == 'POST':
         delete_row('db', str(request.user), int(photo_id))
         return redirect('photo-wall')
  
     return render(request, 'delete.html', context)
+
+def new_post_view(request):
+  if request.method != 'POST':
+    form = PostForm()
+  else:
+    form = PostForm(request.POST)
+    if form.is_valid():
+      new_post = form.save(commit=False)
+      new_post.user = request.user
+      new_post.id = uuid.uuid4()
+      new_post.save()
+  return render(request, 'add.html', {'form': form})
