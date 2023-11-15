@@ -74,7 +74,7 @@ def new_post_view(request):
   if request.method != 'POST':
     form = PostForm()
   else:
-    form = PostForm(request.POST)
+    form = PostForm(request.POST, request.FILES)
     if form.is_valid():
       new_post = form.save(commit=False)
       new_post.user = request.user

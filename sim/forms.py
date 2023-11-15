@@ -9,4 +9,4 @@ class NameForm(forms.Form):
 class PostForm(forms.ModelForm):
   class Meta:
     model = Photos
-    fields = ['title', 'description', 'url']
+    fields = ['title', 'description', 'file']

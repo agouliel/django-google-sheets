@@ -51,7 +51,7 @@
     {% for photo in photos %}
     <div class="photo-card">
       <a target="_self" href="{% url 'post_db_url' photo.id %}" target="_blank">
-        <img src="{{ photo.url }}" alt="{{ photo.title }}">
+        <img src="{{ photo.file.url }}" alt="{{ photo.title }}">
         <div class="photo-details">
           <h4>{{ photo.title }}</h4>
           <p>{{ photo.description }}</p>
