@@ -2,6 +2,7 @@ import os
 import gspread
 from typing import List
 from django.conf import settings
+from PIL import Image
 
 def initialize_gspread() -> gspread.client.Client:
   """
@@ -93,3 +94,13 @@ def delete_row(doc_name, user_name, photo_id):
   
   # update max row
   worksheet1.update(range_name='A1', values=[[max_id-1]])
+
+
+def compress_image(file):
+  filepath = os.path.join(settings.MEDIA_ROOT, file)
+  factor = 0.75
+  picture = Image.open(filepath)
+  xaxis = picture.size[0]
+  yaxis = picture.size[1]
+  picture = picture.resize((int(xaxis*factor), int(yaxis*factor)), Image.LANCZOS)
+  picture.save(filepath, optimize=True)#, quality=factor*100)

@@ -83,6 +83,8 @@ def new_post_view(request):
       # Django stores datetime information in UTC in the database
       new_post.post_date = timezone.now()
       new_post.save()
+      post = Photos.objects.get(pk=new_post.id)
+      compress_image(post.file.name)
       return redirect('home_db_url')
   return render(request, 'add_db.html', {'form': form})
 

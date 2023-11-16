@@ -2,3 +2,4 @@ django
 python-dotenv
 gspread
 django-bootstrap-v5
+pillow
