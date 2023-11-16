@@ -12,5 +12,4 @@ urlpatterns = [
     path('media/<str:path>', serve, {'document_root': settings.MEDIA_ROOT,}),
 ]
 
-# the below should be included in settings as well
-urlpatterns = [path('alexgram/', include(urlpatterns))]
+urlpatterns = [path(f'{settings.URL_PREFIX}/', include(urlpatterns))]

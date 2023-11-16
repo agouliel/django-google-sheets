@@ -138,5 +138,7 @@ LOGOUT_REDIRECT_URL = 'home_db_url'
 
 TIME_ZONE = 'Europe/Athens'
 
+URL_PREFIX = 'alexgram'
+
 MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/alexgram/media/'
+MEDIA_URL = f'/{URL_PREFIX}/media/'

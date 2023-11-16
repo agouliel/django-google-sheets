@@ -55,9 +55,13 @@
         </div>
       </a>
     </div>
-    {% if user.is_authenticated %}
-    <a href="{% url 'delete_db_url' photo.id %}">Delete</a>
-    {% endif %}
   </div>
+
+    <h4>{{ photo.title }}</h4>
+    <p>{{ photo.description }}</p>
+    {% if user.is_authenticated %}
+    <p><a href="{% url 'delete_db_url' photo.id %}">Delete</a></p>
+    {% endif %}
+  
 </div>
 {% endblock content %}
